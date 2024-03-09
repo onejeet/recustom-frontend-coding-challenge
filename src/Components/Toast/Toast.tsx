@@ -46,6 +46,18 @@ const Toast: React.FC<ToastProps> = ({
     return type === "message" || avatarProps?.title;
   }, [type, avatarProps]);
 
+  const messageText = React.useMemo(() => {
+    if (message) return message;
+    switch (type) {
+      case "success":
+        return "The action completed successfully.";
+      case "error":
+        return "Soemthing went wrong.";
+      case "message":
+        return "This is dummy message";
+    }
+  }, [type, message]);
+
   const color = React.useMemo(() => {
     const colorType = isMessage ? "message" : type;
     switch (colorType) {
@@ -75,6 +87,7 @@ const Toast: React.FC<ToastProps> = ({
       case "success":
         return isMinimal ? (
           <SquareCheckFilled
+            data-testid="toast-success-minimal-icon"
             sx={{ color: "success.light", fontSize: "32px" }}
           />
         ) : (
@@ -87,6 +100,7 @@ const Toast: React.FC<ToastProps> = ({
               color="success.light"
               ml="8px"
               fontWeight={600}
+              data-testid="toast-success-expanded-header"
             >
               Success
             </Typography>
@@ -105,6 +119,7 @@ const Toast: React.FC<ToastProps> = ({
               color="error.light"
               ml="8px"
               fontWeight={600}
+              data-testid="toast-success-expanded-header"
             >
               Attention
             </Typography>
@@ -141,7 +156,7 @@ const Toast: React.FC<ToastProps> = ({
               summary={
                 <Box display="flex" flexDirection="column">
                   <Typography fontSize="14px" color={color?.text}>
-                    {message}
+                    {messageText}
                   </Typography>
                   {ctaProps?.onClick && (
                     <Button
@@ -170,7 +185,7 @@ const Toast: React.FC<ToastProps> = ({
                   color={color?.text}
                   ml={isMinimal ? "10px" : "0px"}
                 >
-                  {message}
+                  {messageText}
                 </Typography>
               </Box>
               {!isMinimal && ctaProps?.onClick && (
@@ -188,6 +203,7 @@ const Toast: React.FC<ToastProps> = ({
         </Box>
 
         <CrossOutlined
+          data-testid="toast-close-btn"
           sx={{
             color: color?.text,
             fontSize: "18px",

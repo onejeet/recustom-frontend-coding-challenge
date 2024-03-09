@@ -11,6 +11,5 @@ export default function OrgMaterialThemeProvider({
   const orgData = useCurrentOrganization();
 
   const theme = createMuiThemeFromOrgTheme(orgData?.organization_theme);
-  console.log("ZZ: Theme ==> ", theme);
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
